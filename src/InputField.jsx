@@ -35,9 +35,6 @@ class InputField extends React.Component {
 
    handleChange = (key,value) => {
     let inputConfig = INPUTS.filter(inputPropItem => inputPropItem.key === key)[0];
-    console.log(key);
-    console.log(value);
-    debugger;
     inputConfig.value = value;
     this.setState({ INPUTS: INPUTS })
   };
