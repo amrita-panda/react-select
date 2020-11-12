@@ -37,6 +37,7 @@ class InputField extends React.Component {
     let inputConfig = INPUTS.filter(inputPropItem => inputPropItem.key === key)[0];
     console.log(key);
     console.log(value);
+    debugger;
     inputConfig.value = value;
     this.setState({ INPUTS: INPUTS })
   };
@@ -45,13 +46,22 @@ render(){
     return(
         <>{
        INPUTS.map((inputConfig,inputKey)=>
-        <div key={inputKey}>{CreateInputField(inputConfig.type,inputConfig.key,inputConfig.label,inputConfig.value,
-            this.handleChange.bind(this),{
+        <div key={inputKey}>{CreateInputField(inputConfig.type,
+            inputConfig.key,
+            inputConfig.label,
+            inputConfig.value,
+            this.handleChange.bind(this),
+            {
                 selectMultiple:inputConfig.isMultiOptions,
                 selectSearchable:inputConfig.isSearchableOptions,
                 selectCreatable:inputConfig.isCreateableOptions,
-                selectClearable:inputConfig.isClearableOptions,
-                customStyle:MULTI_CUSTOM_STYLE
+                clearable:inputConfig.clear,
+                disabled:inputConfig.disabled,
+                customStyle:MULTI_CUSTOM_STYLE,
+                dateFormat:inputConfig.format,
+                showTimeselect:inputConfig.showTime,
+                placeholder:inputConfig.type==='date'?'Select Date':'Select',
+                input:'font-weight-bold'
     
             },inputConfig.options,inputConfig.key)}</div>
        )
