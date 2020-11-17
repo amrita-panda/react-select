@@ -4,6 +4,7 @@ import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import DatePicker from "react-datepicker";
 import './Dropdown.css';
+import Switch from "react-switch";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -24,12 +25,8 @@ export function CreateInputLabel(label, className, style) {
 //   }
 
 export function CreateInputField(type, name, label, value, onChange, style, selectOptions, id) {
-    console.log(value);
     const ExampleCustomInput = ({ value, onClick }) => {
-        debugger;
-        console.log(style)
-        console.log(value);
-        return <button className={`calender-btn-customized p-2 ${style.input}`} onClick={onClick} disabled={style.disabled} >
+        return <button className={`calender-btn-customized p-1 ${style.input}`} onClick={onClick} disabled={style.disabled} >
             {value === "" ? style.placeholder : value}<i className="fa fa-calendar-o ml-4 float-right mt-1 " aria-hidden="true" ></i>
         </button>
     }
@@ -103,6 +100,55 @@ export function CreateInputField(type, name, label, value, onChange, style, sele
                 </DatePicker>
             }
         </div>
+    }  else if ('switch' === type.toLowerCase()) {
+        let switchWidth = style.switchWidth || style.switchHeight || 28;
+
+        return <div className={`form-group studio ${style.container || ''}`}>
+            {label && CreateInputLabel(label, 'text-capitalize p-0 mr-3 mb-0 w-auto', style)}
+            <div className={`studio-switch ${style.input || ''}`} >
+                <Switch className='react-switch'
+                    id={id}
+                    checked={value || false}
+                    onChange={(checked) => onChange(name, checked)}
+                    onColor="#0e90ff"
+                    disabled={style.disabled || false}
+                    height={style.switchHeight || 28}
+                    width={(switchWidth * 2)}
+                    handleDiameter={(style.switchHeight || 28) - 5}
+                    checkedIcon={style.switchTextOn ? getSwitchIconText(style.switchTextOn) : false}
+                    uncheckedIcon={style.switchTextOff ? getSwitchIconText(style.switchTextOff) : false}
+                />
+            </div>
+        </div>
+    }else {
+        return <div className={`form-group studio ${style.container || ''}`}>
+            {label && CreateInputLabel(label, 'text-capitalize mb-1', style)}
+            <input id={id} type={type} name={name} value={'file' === type.toLowerCase() ? undefined : (value || '')}
+                className={`form-control ${style.input || ''}`}
+                placeholder={label ? undefined : style.placeholder}
+                checked={style.checked}
+                accept={style.accept}
+                min={style.min} max={style.max} step={style.step}
+                size={style.size} maxLength={style.maxLength} pattern={style.pattern}
+                disabled={style.disabled} readOnly={style.readOnly} required={style.required}
+                autoFocus={style.autoFocus} multiple={style.multiple}
+                onChange={(e) => onChange(name, 'file' === type.toLowerCase() ? e.target.files : 'number' === type.toLowerCase() ? (e.target.value * 1) : e.target.value)} />
+        </div>
     }
 
+}
+
+function getSwitchIconText(text) {
+    return <div
+        style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+            width: "100%",
+            color: "#fff",
+            fontSize: '90%',
+            textTransform: 'uppercase'
+        }}
+    >{text}</div>
 }
